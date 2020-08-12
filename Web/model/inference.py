@@ -2,6 +2,8 @@ import torch
 import numpy as np
 from flask import jsonify
 import torch.nn as nn
+import os
+import sys
 
 class OneDimCNN(nn.Module):
     def __init__(self):
@@ -26,20 +28,22 @@ class OneDimCNN(nn.Module):
 
 def infer(data):
     model = OneDimCNN()
-    model.load_state_dict(torch.load('./model/output_dir/1DCNN_0809_15e-4.pt'))
+    print("infer", os.getcwd(), file=sys.stderr)
+    print("infer", os.getcwd(), file=sys.stdout)
+    model.load_state_dict(torch.load('/app/Web/model/output_dir/1DCNN_0809_15e-4.pt'))
 
     model.eval()
 
-    with open(f'./input/{data}') as f:
+    with open(f'/app/Web/input/{data}') as f:
         x = np.loadtxt(f)
 
     # with open(f'./input/{data}') as f:
     #     y = np.loadtxt(f)
 
-    with open('./model/labels.txt') as f:
+    with open('/app/Web/model/labels.txt') as f:
         labels = f.readlines()
 
-    with open('./model/cancer_names.txt') as f:
+    with open('/app/Web/model/cancer_names.txt') as f:
         names = f.readlines()
 
     x = torch.from_numpy(x)
@@ -55,12 +59,12 @@ def infer(data):
     return labels[y_hat], names[y_hat]
 
 def top_ten(data):
-    curr = np.loadtxt(f'./input/{data}')
+    curr = np.loadtxt(f'/app/Web/input/{data}')
 
-    with open('./model/average.txt') as f:
+    with open('/app/Web/model/average.txt') as f:
         avgs = f.readlines()
 
-    with open('./model/gene_names.txt') as f:
+    with open('/app/Web/model/gene_names.txt') as f:
         genes = f.readlines()
 
     abs_diff = []
