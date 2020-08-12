@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 from werkzeug.utils import secure_filename
 from model.inference import model_inference
+import os
+import sys
 
 app = Flask(__name__)
 
@@ -30,14 +32,16 @@ def route_template(template):
 def upload_file():
    if request.method == 'POST':
       f = request.files['file']
+      print("run", os.getcwd(), file=sys.stderr)
+      print("run", os.getcwd(), file=sys.stdout)
       #저장할 경로 + 파일명
-      f.save('./input/'+secure_filename(f.filename))
+      f.save('/app/Web/input/'+secure_filename(f.filename))
       cohort, name, top_labels, top_normal, top_input = model_inference(f.filename)
       return render_template('/home/predict.html', cohort=cohort, name=name,
                             labels=top_labels, normal=top_normal, input=top_input)
 
 if __name__ == "__main__":
     try:
-        app.run(host="0.0.0.0", port=80, debug=True)
+        app.run(host="0.0.0.0", port=5000, debug=True)
     except Exception as ex:
         print(ex)

@@ -12,5 +12,4 @@ RUN apt-get upgrade -y
 RUN apt install vim -y
 RUN pip install -r requirements.txt
 
-EXPOSE 80
 CMD ["python", "./Web/run.py"]
