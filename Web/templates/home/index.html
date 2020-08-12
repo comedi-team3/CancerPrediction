@@ -1,0 +1,276 @@
+
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="row page-title-header">
+      <div class="col-12">
+        <div class="page-header">
+          <h4 class="page-title">Dashboard</h4>
+          <!-- <form method="POST" action="/test">
+            URL <input type="text" name="url"/>
+            <input type="submit"/>
+          </form>
+
+          <table border =1>
+          {% for data in resData %}
+          <tr>
+            <td> {{data[0]}}</td>
+            <td> {{data[1]}}</td>
+          </tr>
+          {% endfor %}
+        </table> -->
+        </div>
+      </div>
+
+      <!-- 파일 업로드 부분-->
+      <div class="col-md-12">
+        <div class="page-header-toolbar">
+          <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <form class="forms-samples" enctype = "multipart/form-data" method="POST" action="/upload">
+                  <div class="form-group">
+                   <h4 class="card-title" style="font-weight:bolder; font-size:large;">Gene File upload</h4>
+                    <div class="input-group col-xs-12">
+                      <input type="file" class="form-control file-upload-info" placeholder="Upload Image" name="file">
+                      <span class="input-group-append">
+                        <button class="file-upload-browse btn btn-info" type="submit">Upload</button>
+                      </span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 암 종류 시각화 부분-->
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+              <h4 class="card-title" style="font-weight:bolder; font-size:large;">Cancer Table</h4>
+            <p class="card-description">&nbsp;&nbsp;&nbsp;Check 'Mutational cancer driver genes' for each cacer type</p>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th  style="font-weight:bolder;">Cancer type</th>
+                  <th  style="font-weight:bolder;">Cohort</th>
+                  <th  style="font-weight:bolder;">Mutation</th>
+                  <th  style="font-weight:bolder;">Sample</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onClick="location.href='/TCGA-LAML.html'">
+                  <td>Acute Myeloid Leukemia</td>
+                  <td><label class="badge badge-success">TCGA-LAML</label></td>
+                  <td class="text-danger">133</td>
+                  <td class="text-success">127</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-ACC.html'">
+                  <td>Adrenocortical Carcinoma</td>
+                  <td><label class="badge badge-success">TCGA-ACC</label></td>
+                  <td class="text-danger">70</td>
+                  <td class="text-success">67</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-BLCA.html'">
+                  <td>Bladder Urothelial Carcinoma</td>
+                  <td><label class="badge badge-success">TCGA-BLCA</label></td>
+                   <td class="text-danger">1972</td>
+                   <td class="text-success">1714</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-LGG.html'">
+                  <td>Brain Lower Grade Glioma</td>
+                  <td><label class="badge badge-success">TCGA-LGG</label></td>
+                  <td class="text-danger">1278</td>
+                  <td class="text-success">1250</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-BRCA.html'">
+                  <td>Breast Invasive Carcinoma</td>
+                  <td><label class="badge badge-success">TCGA-BRCA</label></td>
+                  <td class="text-danger">1562</td>
+                  <td class="text-success">1521</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-CESC.html'">
+                  <td>Cervical Squamous cell Carcinoma and Endocervical Adenocarcinoma</td>
+                  <td><label class="badge badge-success">TCGA-CESC</label></td>
+                 <td class="text-danger">614</td>
+                  <td class="text-success">527</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-CHOL.html'">
+                  <td>Cholangiocarcinoma</td>
+                  <td><label class="badge badge-success">TCGA-CHOL</label></td>
+                  <td class="text-danger">42</td>
+                  <td class="text-success">47</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-COAD.html'">
+                  <td>Colon Adenocarcinoma & Rectum Adenocarcinoma</td>
+                  <td><label class="badge badge-success">TCGA-COADREAD</label></td>
+                  <td class="text-danger">1902</td>
+                  <td class="text-success">1711</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-ESCA.html'">
+                  <td>Esophageal Carcinoma</td>
+                  <td><label class="badge badge-success">TCGA-ESCA</label></td>
+                  <td class="text-danger">477</td>
+                  <td class="text-success">446</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-GBM.html'">
+                  <td>Glioblastoma Multiforme</td>
+                  <td><label class="badge badge-success">TCGA-GBM</label></td>
+                  <td class="text-danger">686</td>
+                  <td class="text-success">628</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-HNSC.html'">
+                  <td>Head and Neck Squamous Cell Carcinoma</td>
+                  <td><label class="badge badge-success">TCGA-HNSC</label></td>
+                  <td class="text-danger">1805</td>
+                  <td class="text-success">1605</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-KICH.html'">
+                  <td>Kidney Chromophobe</td>
+                  <td><label class="badge badge-success">TCGA-KICH</label></td>
+                  <td class="text-danger">38</td>
+                  <td class="text-success">29</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-KIRC.html'">
+                  <td>Kidney Renal Clear Cell Carcinoma</td>
+                  <td><label class="badge badge-success">TCGA-KIRC</label></td>
+                  <td class="text-danger">498</td>
+                  <td class="text-success">463</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-KIRP.html'">
+                  <td>Kidney Renal Papillary Cell Carcinoma</td>
+                  <td><label class="badge badge-success">TCGA-KIRP</label></td>
+                  <td class="text-danger">202</td>
+                  <td class="text-success">186</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-LIHC.html'">
+                  <td>Liver Hepatocellular Carcinoma</td>
+                  <td><label class="badge badge-success">TCGA-LIHC</label></td>
+                  <td class="text-danger">549</td>
+                  <td class="text-success">516</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-LUAD.html'">
+                  <td>Lung Adenocarcinoma</td>
+                  <td><label class="badge badge-success">TCGA-LUAD</label></td>
+                  <td class="text-danger">1289</td>
+                  <td class="text-success">1156</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-LUSC.html'">
+                  <td>Lung Squamous Cell Carcinoma</td>
+                  <td><label class="badge badge-success">TCGA-LUSC</label></td>
+                  <td class="text-danger">1578</td>
+                  <td class="text-success">1376</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-DLBC.html'">
+                  <td>Lymphoid Neoplasm Diffuse Large B-cell Lymphoma</td>
+                  <td><label class="badge badge-success">TCGA-DLBC</label></td>
+                 <td class="text-danger">222</td>
+                  <td class="text-success">143</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-MESO.html'">
+                  <td>Mesothelioma</td>
+                  <td><label class="badge badge-success">TCGA-MESO</label></td>
+                  <td class="text-danger">72</td>
+                  <td class="text-success">68</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-OV.html'">
+                  <td>Ovarian Serous Cystadenocarcinoma</td>
+                  <td><label class="badge badge-success">TCGA-OV</label></td>
+                  <td class="text-danger">489</td>
+                  <td class="text-success">483</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-PAAD.html'">
+                  <td>Pancreatic Adenocarcinoma</td>
+                  <td><label class="badge badge-success">TCGA-PAAD</label></td>
+                  <td class="text-danger">335</td>
+                  <td class="text-success">340</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-PCPG.html'">
+                  <td>Pheochromocytoma and Paraganglioma</td>
+                  <td><label class="badge badge-success">TCGA-PCPG</label></td>
+                  <td class="text-danger">52</td>
+                  <td class="text-success">53</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-PRAD.html'">
+                  <td>Prostate Adenocarcinoma</td>
+                  <td><label class="badge badge-success">TCGA-PRAD</label></td>
+                  <td class="text-danger">335</td>
+                  <td class="text-success">353</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-SARC.html'">
+                  <td>Sarcoma</td>
+                  <td><label class="badge badge-success">TCGA-SARC</label></td>
+                  <td class="text-danger">141</td>
+                  <td class="text-success">134</td>
+                </tr>
+                <tr  onClick="location.href='/TCGA-SKCM.html'">
+                  <td>Skin Cutaneous Melanoma</td>
+                  <td><label class="badge badge-success">TCGA-SKCM</label></td>
+                 <td class="text-danger">1664</td>
+                 <td class="text-success">1404</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-STAD.html'">
+                  <td>Stomach Adenocarcinoma</td>
+                  <td><label class="badge badge-success">TCGA-STAD</label></td>
+                  <td class="text-danger">1948</td>
+                  <td class="text-success">1014</td>
+                  </td>
+                </tr>
+                <tr onClick="location.href='/TCGA-TGCT.html'">
+                  <td>Testicular Germ Cell Tumors</td>
+                  <td><label class="badge badge-success">TCGA-TGCT</label></td>
+                  <td class="text-danger">59</td>
+                  <td class="text-success">59</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-THYM.html'">
+                  <td>Thymoma</td>
+                  <td><label class="badge badge-success">TCGA-THYM</label></td>
+                  <td class="text-danger">93</td>
+                  <td class="text-success">93</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-THCA.html'">
+                  <td>Thyroid Carcinoma</td>
+                  <td><label class="badge badge-success">TCGA-THCA</label></td>
+                  <td class="text-danger">418</td>
+                  <td class="text-success">412</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-UCS.html'">
+                  <td>Uterine Carcinosarcoma</td>
+                  <td><label class="badge badge-success">TCGA-UCS</label></td>
+                  <td class="text-danger">187</td>
+                  <td class="text-success">176</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-UCEC.html'">
+                  <td>Uterine Corpus Endometrial carcinoma</td>
+                  <td><label class="badge badge-success">TCGA-UCEC</label></td>
+                  <td class="text-danger">2576</td>
+                  <td class="text-success">2154</td>
+                </tr>
+                <tr onClick="location.href='/TCGA-UVM.html'">
+                  <td>Uveal Melanoma</td>
+                  <td><label class="badge badge-success">TCGA-UVM</label></td>
+                  <td class="text-danger">128</td>
+                  <td class="text-success">127</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+  <script src="/static/assets/js/demo_1/dashboard.js"></script>
+{% endblock javascripts %}

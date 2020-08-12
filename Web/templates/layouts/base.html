@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="/static/assets/images/favicon.png" />
+
+    <title>COMEDI - {% block title %}{% endblock %} </title>
+
+    <link rel="stylesheet" href="/static/assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/static/assets/vendors/iconfonts/ionicons/css/ionicons.css">
+    <link rel="stylesheet" href="/static/assets/vendors/iconfonts/typicons/src/font/typicons.css">
+    <link rel="stylesheet" href="/static/assets/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="/static/assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/static/assets/vendors/css/vendor.bundle.addons.css">
+
+    <link rel="stylesheet" href="/static/assets/css/shared/style.css">
+    <link rel="stylesheet" href="/static/assets/css/demo_1/style.css">
+
+    <!-- Specific CSS goes HERE -->
+    {% block stylesheets %}{% endblock stylesheets %}
+
+  </head>
+  <body>
+    <div class="container-scroller">
+
+      {% include 'side/navigation.html' %}
+
+      <div class="container-fluid page-body-wrapper">
+
+        {% include 'side/sidebar.html' %}
+
+        <div class="main-panel">
+          <div class="content-wrapper">
+            {% block content %}{% endblock content %}
+          </div>
+          {% include 'side/footer.html' %}
+
+        </div>
+      </div>
+    </div>
+
+    <!-- container-scroller -->
+
+    {% include 'side/scripts.html' %}
+
+    <!-- Specific JS goes HERE -->
+    {% block javascripts %}{% endblock javascripts %}
+
+  </body>
+</html>
