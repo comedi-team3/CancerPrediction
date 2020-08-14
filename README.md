@@ -11,7 +11,7 @@ Classifying the tumors and non-tumor gene expressions into **34 different types*
 ## Installation
 Based on the data from the paper by [**Mostavi, et al.**], newly splitted data for the model can be downloaded [**here**](https://drive.google.com/drive/folders/1EgHyGOZzRiZlv1AZxW4fB2E3H8UpfBiV?usp=sharing).
 ```
-git clone git@github.com:comedi-team3/CancerPrediction_Model.git
+git clone git@github.com:comedi-team3/CancerPrediction.git
 cd CancerPrediction_Model
 ```
 
