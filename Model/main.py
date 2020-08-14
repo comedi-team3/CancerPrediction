@@ -8,16 +8,32 @@ from model import OneDimCNN
 from collections import Counter
 from matrix import batch_list, acc, epoch_time
 
+def one_hot(data):
+    n_values = np.max(data) + 1
+
+    return np.eye(n_values)[data]
+
+def data_split(data):
+    x, y = [], []
+    
+    for each in data:
+        x.append(each[:-1])
+        y.append(int(each[-1]))
+    
+    y = one_hot(y)
+
+    return x, y
+
 def infer(num):
     model = OneDimCNN()
-    model.load_state_dict(torch.load('./output_dir/1DCNN_0803_no_lr_2.pt'))
+    model.load_state_dict(torch.load('./output_dir/1DCNN_0809_15e-4.pt'))
 
     model.eval()
     
-    with open(f'./test_inputs/test_{num}_x.txt') as f:
+    with open(f'./inputs/{num}_x.txt') as f:
         x = np.loadtxt(f)
 
-    with open(f'./test_inputs/test_{num}_y.txt') as f:
+    with open(f'./inputs/{num}_y.txt') as f:
         y = np.loadtxt(f)
 
     x = torch.from_numpy(x)
@@ -30,9 +46,9 @@ def infer(num):
     y_hat = torch.max(pred, 1)[1]
     y = np.argmax(y, -1)
 
-    print(pred, y_hat, y)
+    print(y_hat, y)
 
-    return
+    return y_hat == y
 
 def train(x, y, batch_size, model):
     x_batches = batch_list(x, batch_size)
@@ -118,76 +134,37 @@ def test(x, y, batch_size, model):
         return total_loss / iter_num, test_acc / iter_num
 
 if __name__=="__main__":
-
-    # for i in range(0, 100, 2):
-    #     infer(i)
-
-    # exit()
     
-    second = open('./data/TCGA_new_pre_second.pckl', 'rb')
-    [dropped_genes, dropped_genes_name, dropped_ens_id, sample_id, cancer_type, cancer_label] = pickle.load(second)
-    second.close()
-
-    first = open('./data/TCGA_new_pre_first.pckl', 'rb')
-    [_, _, _, _, remaining_cancer_ids, remaining_normal_ids] = pickle.load(first)
-    first.close()
+    print('Loading data ...')
+    train_data = np.loadtxt('./final_data/train.txt')
+    valid_data = np.loadtxt('./final_data/valid.txt')
+    test_data = np.loadtxt('./final_data/test.txt')
 
     np.random.seed(1234)
-
-    X_cancer = dropped_genes.iloc[:, remaining_cancer_ids].T.values
-    X_normal = dropped_genes.iloc[:, remaining_normal_ids].T.values
-
-    cancer_names = cancer_label[remaining_cancer_ids]
-    normal_names = ['Normal Samples'] * len(X_normal)
-
-    X_cancer = np.concatenate((X_cancer, X_normal))
-    X_types = np.concatenate((cancer_names, normal_names))
-
-    X_final = np.concatenate((X_cancer, np.zeros((len(X_cancer), 9))), axis=1)
-
-    X_final = np.reshape(X_final, (-1, 71, 100))
-
-    ## one hot encoding
-    # classes = list(set(X_types))
-    # X_types = [classes.index(each) for each in X_types]
-    # X_types = np.eye(34)[X_types]
-
-    train_size = int(0.6 * len(X_types)) #6631
-    val_size = int((len(X_types) - train_size)/2) #2211
-    test_size = len(X_types) - (train_size + val_size) # 2211
-
-    train_set, val_set, test_set = torch.utils.data.random_split(list(zip(X_final, X_types)), [train_size, val_size, test_size])
-
-    x_train, y_train = list(zip(*train_set))[0], list(zip(*train_set))[1]
-    x_val, y_val = list(zip(*val_set))[0], list(zip(*val_set))[1]
-    x_test, y_test = list(zip(*test_set))[0], list(zip(*test_set))[1]
-
-   
-    '''
-    classes_json = json.dumps({'classes': classes})
-    with open('classes_0803_2.json', 'w', encoding='utf-8') as f:
-        json.dump(classes_json, f)
     
-    for i in range(0, 100, 2):
-        with open(f'./test_inputs/test_{i}_x.txt', 'w', encoding='utf-8') as f:
-            np.savetxt(f, x_test[i])
-        with open(f'./test_inputs/test_{i}_y.txt', 'w', encoding='utf-8') as f:
-            np.savetxt(f, y_test[i])
+    np.random.shuffle(train_data)
+    np.random.shuffle(valid_data)
 
-    exit()
-    '''
+    print('Loading done !')
+    print('Splitting data ...')
 
+    x_train, y_train = data_split(train_data)
+    x_valid, y_valid = data_split(valid_data)
+    x_test, y_test = data_split(test_data)
+
+    print('Spliiting done !')
+ 
     batch_size = 128
-    epoch = 100
+    epoch = 200
     patience = 5
 
     model = OneDimCNN()
     criterion = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters())
+    optimizer = torch.optim.Adam(model.parameters(), lr=15e-4)
 
     early_stop_check = 0
     best_valid_loss = float('inf')
-    sorted_path = f'./output_dir/1DCNN_0806_no_lr_3.pt'
+    sorted_path = f'./output_dir/1DCNN_0809_15e-4_2.pt'
 
     for epoch in range(epoch):
         start_time = time.time()
@@ -195,7 +172,7 @@ if __name__=="__main__":
         # train, validation
         train_loss, train_acc = train(x_train, y_train, batch_size, model)
 
-        valid_loss, valid_acc = valid(x_val, y_val, batch_size, model)
+        valid_loss, valid_acc = valid(x_valid, y_valid, batch_size, model)
 
         end_time = time.time()
         epoch_mins, epoch_secs = epoch_time(start_time, end_time)
